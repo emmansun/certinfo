@@ -2,10 +2,11 @@ package certinfo
 
 import (
 	"bytes"
-	"crypto/x509"
 	"encoding/pem"
 	"os"
 	"testing"
+
+	"github.com/emmansun/gmsm/smx509"
 )
 
 type InputType int
@@ -29,20 +30,20 @@ func testPair(t *testing.T, certFile, refFile string, inputType InputType) {
 	var result string
 	switch inputType {
 	case tCertificate:
-		cert, err := x509.ParseCertificate(block.Bytes)
+		cert, err := smx509.ParseCertificate(block.Bytes)
 		if err != nil {
 			t.Fatal(err)
 		}
-		result, err = CertificateText(cert)
+		result, err = CertificateText(cert.ToX509())
 		if err != nil {
 			t.Fatal(err)
 		}
 	case tCertificateRequest:
-		cert, err := x509.ParseCertificateRequest(block.Bytes)
+		cert, err := smx509.ParseCertificateRequest(block.Bytes)
 		if err != nil {
 			t.Fatal(err)
 		}
-		result, err = CertificateRequestText(cert)
+		result, err = CertificateRequestText(cert.ToX509())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -74,20 +75,20 @@ func testPairShort(t *testing.T, certFile, refFile string, inputType InputType) 
 	var result string
 	switch inputType {
 	case tCertificate:
-		cert, err := x509.ParseCertificate(block.Bytes)
+		cert, err := smx509.ParseCertificate(block.Bytes)
 		if err != nil {
 			t.Fatal(err)
 		}
-		result, err = CertificateShortText(cert)
+		result, err = CertificateShortText(cert.ToX509())
 		if err != nil {
 			t.Fatal(err)
 		}
 	case tCertificateRequest:
-		cert, err := x509.ParseCertificateRequest(block.Bytes)
+		cert, err := smx509.ParseCertificateRequest(block.Bytes)
 		if err != nil {
 			t.Fatal(err)
 		}
-		result, err = CertificateRequestShortText(cert)
+		result, err = CertificateRequestShortText(cert.ToX509())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -107,8 +108,12 @@ func testPairShort(t *testing.T, certFile, refFile string, inputType InputType) 
 
 // Test the root CA certificate
 func TestCertInfoRoot(t *testing.T) {
+	testPair(t, "test_certs/sm2.rca.pem", "test_certs/sm2.rca.text", tCertificate)
+	testPair(t, "test_certs/sm2.oca.pem", "test_certs/sm2.oca.text", tCertificate)
 	testPair(t, "test_certs/root1.cert.pem", "test_certs/root1.cert.text", tCertificate)
 	testPair(t, "test_certs/root1.csr.pem", "test_certs/root1.csr.text", tCertificateRequest)
+	testPairShort(t, "test_certs/sm2.rca.pem", "test_certs/sm2.rca.short", tCertificate)
+	testPairShort(t, "test_certs/sm2.oca.pem", "test_certs/sm2.oca.short", tCertificate)
 	testPairShort(t, "test_certs/root1.cert.pem", "test_certs/root1.cert.short", tCertificate)
 	testPairShort(t, "test_certs/root1.csr.pem", "test_certs/root1.csr.short", tCertificateRequest)
 }

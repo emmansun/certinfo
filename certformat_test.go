@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/emmansun/gmsm/smx509"
 )
 
 func Test_newCertificateShort(t *testing.T) {
@@ -18,6 +20,24 @@ func Test_newCertificateShort(t *testing.T) {
 		args args
 		want *certificateShort
 	}{
+		{"rootsm2", args{"test_certs/sm2.rca.pem"}, &certificateShort{
+			Type:               "Intermediate CA",
+			SerialNumber:       "1591...2162",
+			PublicKeyAlgorithm: "ECDSA sm2p256v1",
+			Subject:            "RootCA for Test",
+			Issuer:             "RootCA for Test",
+			NotBefore:          mustParseTime(t, "2015-12-31T16:00:00Z"),
+			NotAfter:           mustParseTime(t, "2035-12-30T16:00:00Z"),
+		}},
+		{"sm2.oca", args{"test_certs/sm2.oca.pem"}, &certificateShort{
+			Type:               "Intermediate CA",
+			SerialNumber:       "1591...1182",
+			PublicKeyAlgorithm: "ECDSA sm2p256v1",
+			Subject:            "MiddleCA for Test",
+			Issuer:             "RootCA for Test",
+			NotBefore:          mustParseTime(t, "2015-12-31T16:00:00Z"),
+			NotAfter:           mustParseTime(t, "2035-12-30T16:00:00Z"),
+		}},
 		{"root1", args{"test_certs/root1.cert.pem"}, &certificateShort{
 			Type:               "Root CA",
 			SerialNumber:       "1",
@@ -131,11 +151,11 @@ func mustParseCertificate(t *testing.T, filename string) *x509.Certificate {
 	if block == nil || len(rest) > 0 {
 		t.Fatalf("failed to decode PEM in %s", filename)
 	}
-	cert, err := x509.ParseCertificate(block.Bytes)
+	cert, err := smx509.ParseCertificate(block.Bytes)
 	if err != nil {
 		t.Fatalf("failed to parse certificate in %s: %v", filename, err)
 	}
-	return cert
+	return cert.ToX509()
 }
 
 func mustParseCertificateRequest(t *testing.T, filename string) *x509.CertificateRequest {
@@ -147,9 +167,9 @@ func mustParseCertificateRequest(t *testing.T, filename string) *x509.Certificat
 	if block == nil || len(rest) > 0 {
 		t.Fatalf("failed to decode PEM in %s", filename)
 	}
-	cr, err := x509.ParseCertificateRequest(block.Bytes)
+	cr, err := smx509.ParseCertificateRequest(block.Bytes)
 	if err != nil {
 		t.Fatalf("failed to parse certificate request in %s: %v", filename, err)
 	}
-	return cr
+	return cr.ToX509()
 }

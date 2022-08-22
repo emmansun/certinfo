@@ -17,6 +17,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/emmansun/gmsm/smx509"
 	ct "github.com/google/certificate-transparency-go"
 	cttls "github.com/google/certificate-transparency-go/tls"
 	ctx509 "github.com/google/certificate-transparency-go/x509"
@@ -327,8 +328,15 @@ func printSubjAltNames(ext pkix.Extension, dnsNames, emailAddresses []string, ip
 	return nil
 }
 
+func sinatureAlgToString(sigAlgo x509.SignatureAlgorithm) string {
+	if sigAlgo == smx509.SM2WithSM3 {
+		return "SM2-SM3"
+	}
+	return sigAlgo.String()
+}
+
 func printSignature(sigAlgo x509.SignatureAlgorithm, sig []byte, buf *bytes.Buffer) {
-	buf.WriteString(fmt.Sprintf("%4sSignature Algorithm: %s", "", sigAlgo))
+	buf.WriteString(fmt.Sprintf("%4sSignature Algorithm: %s", "", sinatureAlgToString(sigAlgo)))
 	for i, val := range sig {
 		if (i % 18) == 0 {
 			buf.WriteString(fmt.Sprintf("\n%9s", ""))
@@ -382,7 +390,7 @@ func CertificateText(cert *x509.Certificate) (string, error) {
 	buf.WriteString(fmt.Sprintf("%4sData:\n", ""))
 	printVersion(cert.Version, &buf)
 	buf.WriteString(fmt.Sprintf("%8sSerial Number: %d (%#x)\n", "", cert.SerialNumber, cert.SerialNumber))
-	buf.WriteString(fmt.Sprintf("%4sSignature Algorithm: %s\n", "", cert.SignatureAlgorithm))
+	buf.WriteString(fmt.Sprintf("%4sSignature Algorithm: %s\n", "", sinatureAlgToString(cert.SignatureAlgorithm)))
 
 	// Issuer information
 	buf.WriteString(fmt.Sprintf("%8sIssuer: ", ""))

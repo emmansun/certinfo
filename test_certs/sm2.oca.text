@@ -1,0 +1,36 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1591942891182 (0x172a730c6ae)
+    Signature Algorithm: SM2-SM3
+        Issuer: C=CN,O=GMSSL,OU=PKI/SM2,CN=RootCA for Test
+        Validity
+            Not Before: Dec 31 16:00:00 2015 UTC
+            Not After : Dec 30 16:00:00 2035 UTC
+        Subject: C=CN,O=GMSSL,OU=PKI/SM2,CN=MiddleCA for Test
+        Subject Public Key Info:
+            Public Key Algorithm: ECDSA
+                Public-Key: (256 bit)
+                X:
+                    0e:2e:07:57:e2:a8:98:ec:d6:e4:7a:6c:52:2b:b7:
+                    1b:cb:16:ea:14:d3:1f:ae:3c:fc:6b:b2:5c:e8:77:
+                    24:c6
+                Y:
+                    d4:c8:fd:74:9a:66:e0:05:23:4f:da:b6:6c:be:1c:
+                    8f:b1:fb:de:a5:89:36:9c:00:ae:76:6b:ed:f0:9c:
+                    dc:0d
+                Curve: sm2p256v1
+        X509v3 extensions:
+            X509v3 Authority Key Identifier:
+                keyid:9C:69:EC:0F:BA:1A:39:C5:AF:E8:24:EB:B2:9C:12:04
+            X509v3 Subject Key Identifier:
+                F9:7F:55:B4:27:94:33:62:A6:56:CA:6F:CC:5D:1A:FF
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Key Usage: critical
+                Digital Signature, Content Commitment, Certificate Sign, CRL Sign
+    Signature Algorithm: SM2-SM3
+         30:45:02:20:37:d6:d9:f4:a8:ac:fa:1b:46:20:1a:35:9d:eb:
+         f5:0b:33:2a:9f:4f:3a:0b:f3:66:3b:12:4b:f1:6c:ea:57:fc:
+         02:21:00:a0:89:62:40:e9:eb:67:2f:6c:ab:e3:fc:d8:dc:d9:
+         d2:1e:e4:13:7e:0c:68:4e:e4:93:a1:23:2a:38:a1:61:37
