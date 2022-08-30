@@ -9,7 +9,6 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/asn1"
-	"encoding/base64"
 	"fmt"
 	"math/big"
 	"net"
@@ -24,19 +23,19 @@ import (
 // Time formats used
 const (
 	validityTimeFormat = "Jan 2 15:04:05 2006 MST"
-	sctTimeFormat      = "Jan 2 15:04:05.000 2006 MST"
+	//sctTimeFormat      = "Jan 2 15:04:05.000 2006 MST"
 )
 
 // Extra ASN1 OIDs that we may need to handle
 var (
-	oidEmailAddress                   = []int{1, 2, 840, 113549, 1, 9, 1}
-	oidDomainComponent                = []int{0, 9, 2342, 19200300, 100, 1, 25}
-	oidUserID                         = []int{0, 9, 2342, 19200300, 100, 1, 1}
-	oidExtensionAuthorityInfoAccess   = []int{1, 3, 6, 1, 5, 5, 7, 1, 1}
-	oidNSComment                      = []int{2, 16, 840, 1, 113730, 1, 13}
-	oidStepProvisioner                = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 37476, 9000, 64, 1}
-	oidStepCertificateAuthority       = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 37476, 9000, 64, 2}
-	oidSignedCertificateTimestampList = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 11129, 2, 4, 2}
+	oidEmailAddress                 = []int{1, 2, 840, 113549, 1, 9, 1}
+	oidDomainComponent              = []int{0, 9, 2342, 19200300, 100, 1, 25}
+	oidUserID                       = []int{0, 9, 2342, 19200300, 100, 1, 1}
+	oidExtensionAuthorityInfoAccess = []int{1, 3, 6, 1, 5, 5, 7, 1, 1}
+	oidNSComment                    = []int{2, 16, 840, 1, 113730, 1, 13}
+	oidStepProvisioner              = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 37476, 9000, 64, 1}
+	oidStepCertificateAuthority     = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 37476, 9000, 64, 2}
+	//oidSignedCertificateTimestampList = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 11129, 2, 4, 2}
 )
 
 // stepProvisionerType are string representation of the provisioner type (int)
@@ -345,11 +344,11 @@ func printSignature(sigAlgo x509.SignatureAlgorithm, sig []byte, buf *bytes.Buff
 	buf.WriteString("\n")
 }
 
+/*
 func toBase64(b []byte) string {
 	return base64.StdEncoding.EncodeToString(b)
 }
 
-/*
 func printSCTSignature(sig ct.DigitallySigned, buf *bytes.Buffer) {
 	buf.WriteString(fmt.Sprintf("%20sSignature Algorithm: %s-%s", "", sig.Algorithm.Hash, sig.Algorithm.Signature))
 	for i, val := range sig.Signature {
