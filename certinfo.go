@@ -18,10 +18,6 @@ import (
 	"time"
 
 	"github.com/emmansun/gmsm/smx509"
-	ct "github.com/google/certificate-transparency-go"
-	cttls "github.com/google/certificate-transparency-go/tls"
-	ctx509 "github.com/google/certificate-transparency-go/x509"
-	ctutil "github.com/google/certificate-transparency-go/x509util"
 	"github.com/pkg/errors"
 )
 
@@ -353,6 +349,7 @@ func toBase64(b []byte) string {
 	return base64.StdEncoding.EncodeToString(b)
 }
 
+/*
 func printSCTSignature(sig ct.DigitallySigned, buf *bytes.Buffer) {
 	buf.WriteString(fmt.Sprintf("%20sSignature Algorithm: %s-%s", "", sig.Algorithm.Hash, sig.Algorithm.Signature))
 	for i, val := range sig.Signature {
@@ -366,7 +363,7 @@ func printSCTSignature(sig ct.DigitallySigned, buf *bytes.Buffer) {
 	}
 	buf.WriteString("\n")
 }
-
+*/
 // CertificateShortText returns the human-readable string representation of the
 // given cert using a short and friendly format.
 func CertificateShortText(cert *x509.Certificate) (string, error) {
@@ -768,7 +765,7 @@ func CertificateText(cert *x509.Certificate) (string, error) {
 					}
 					buf.WriteString(fmt.Sprintf("%16s%s: %s\n", "", key, value))
 				}
-			} else if ext.Id.Equal(oidSignedCertificateTimestampList) {
+				/*} else if ext.Id.Equal(oidSignedCertificateTimestampList) {
 				buf.WriteString(fmt.Sprintf("%12sRFC6962 Certificate Transparency SCT:", ""))
 				if ext.Critical {
 					buf.WriteString(" critical\n")
@@ -799,7 +796,7 @@ func CertificateText(cert *x509.Certificate) (string, error) {
 					// There are no available extensions
 					// buf.WriteString(fmt.Sprintf("%20sExtensions: %v\n", "", sct.Extensions))
 					printSCTSignature(sct.Signature, &buf)
-				}
+				} */
 			} else {
 				buf.WriteString(fmt.Sprintf("%12s%s:", "", ext.Id.String()))
 				if ext.Critical {
