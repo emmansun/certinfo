@@ -9,6 +9,7 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/asn1"
+	"errors"
 	"fmt"
 	"math/big"
 	"net"
@@ -17,7 +18,6 @@ import (
 	"time"
 
 	"github.com/emmansun/gmsm/smx509"
-	"github.com/pkg/errors"
 )
 
 // Time formats used
@@ -406,7 +406,7 @@ func CertificateText(cert *x509.Certificate) (string, error) {
 	// Issuer/Subject Unique ID, typically used in old v2 certificates
 	issuerUID, subjectUID, err := certUniqueIDs(cert.RawTBSCertificate)
 	if err != nil {
-		return "", errors.Errorf("certinfo: Error parsing TBS unique attributes: %v\n", err)
+		return "", fmt.Errorf("certinfo: Error parsing TBS unique attributes: %v", err)
 	}
 	if len(issuerUID) > 0 {
 		buf.WriteString(fmt.Sprintf("%8sIssuer Unique ID: %02x", "", issuerUID[0]))
