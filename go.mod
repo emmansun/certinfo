@@ -1,6 +1,6 @@
 module github.com/emmansun/certinfo
 
-go 1.17
+go 1.18
 
 require github.com/emmansun/gmsm v0.21.3
 
