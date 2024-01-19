@@ -498,7 +498,7 @@ func CertificateText(cert *x509.Certificate) (string, error) {
 					if cert.MaxPathLenZero {
 						buf.WriteString(", pathlen:0\n")
 					} else if cert.MaxPathLen > 0 {
-						fmt.Fprintf(&buf, ", pathlen:%d\n", "", cert.MaxPathLen)
+						fmt.Fprintf(&buf, ", pathlen:%d\n", cert.MaxPathLen)
 					} else {
 						buf.WriteString("\n")
 					}
