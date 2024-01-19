@@ -395,7 +395,7 @@ func CertificateText(cert *x509.Certificate) (string, error) {
 	// Validity information
 	fmt.Fprintf(&buf, "%8sValidity\n", "")
 	fmt.Fprintf(&buf, "%12sNot Before: %s\n", "", cert.NotBefore.Format(validityTimeFormat))
-	fmt.Fprintf(&buf, "%12sNot After  : %s\n", "", cert.NotAfter.Format(validityTimeFormat))
+	fmt.Fprintf(&buf, "%12sNot After : %s\n", "", cert.NotAfter.Format(validityTimeFormat))
 
 	// Subject information
 	err := printSubjectInformation(&cert.Subject, cert.PublicKeyAlgorithm, cert.PublicKey, &buf)
